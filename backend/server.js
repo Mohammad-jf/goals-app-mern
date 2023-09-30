@@ -1,7 +1,11 @@
 const express = require('express');
+const colors = require('colors');
+const { connectDB } = require('./config/db');
 
 // it allow us to have .env file
 const dotenv = require('dotenv').config();
+
+connectDB();
 
 const { errorHandler } = require('./middlewares/errorMiddleware');
 
