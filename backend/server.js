@@ -20,6 +20,7 @@ app.use(express.urlencoded({ extended: false }));
 
 // Routes
 app.use('/api/goals', require('./routes/goalsRoutes'));
+app.use('/api/users', require('./routes/userRoutes'));
 
 //should be in bottom after everything to overWrite default express error handler)
 app.use(errorHandler);
