@@ -5,7 +5,6 @@ import { registerUser } from '../features/auth/authSlice';
 import { useNavigate } from 'react-router-dom'
 import { reset } from '../features/auth/authSlice'
 import { toast } from 'react-toastify'
-import authService from '../features/auth/authService';
 
 
 const Register = () => {
