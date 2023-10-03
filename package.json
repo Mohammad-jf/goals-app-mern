@@ -12,13 +12,11 @@
   "author": "mohammad jalifathi",
   "license": "MIT",
   "dependencies": {
-    "axios": "^1.5.1",
     "bcryptjs": "^2.4.3",
     "colors": "^1.4.0",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "express-async-handler": "^1.2.0",
-    "http-proxy-middleware": "^2.0.6",
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.1.0",
     "mongoose": "^7.5.3"

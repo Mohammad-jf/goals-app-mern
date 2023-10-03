@@ -5,7 +5,7 @@ import { registerUser } from '../features/auth/authSlice';
 import { useNavigate } from 'react-router-dom'
 import { reset } from '../features/auth/authSlice'
 import { toast } from 'react-toastify'
-
+import authService from '../features/auth/authService';
 
 
 const Register = () => {
@@ -34,6 +34,7 @@ const Register = () => {
     }, [user, isError, isSuccess, message, navigate, dispatch])
 
 
+
     const onChange = (e) => {
         setFromData((prevState) => ({
             ...prevState,
@@ -41,18 +42,13 @@ const Register = () => {
         }))
     }
 
+
     const onSubmit = (e) => {
         e.preventDefault();
 
-        if (!name || !email || !password || !password2) {
-            toast.error("please include all the fields")
-        }
-
-        if (password && password2 && password !== password2) {
+        if (password !== password2) {
             toast.error("passwords dont match")
-        }
-
-        if (name && email && password && password === password2) {
+        } else {
             const userData = {
                 email,
                 name,
@@ -61,6 +57,7 @@ const Register = () => {
             dispatch(registerUser(userData))
         }
     }
+
 
     return (
         <>
