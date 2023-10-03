@@ -1,11 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import { FaUser } from 'react-icons/fa'
-
-
+import { useDispatch, useSelector } from 'react-redux'
+import { registerUser } from '../features/auth/authSlice';
+import { useNavigate } from 'react-router-dom'
+import { reset } from '../features/auth/authSlice'
+import { toast } from 'react-toastify'
 
 
 
 const Register = () => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate()
+    const { user, isLoading, isError, isSuccess, message } = useSelector((state) => state.auth)
     const [formData, setFromData] = useState({
         name: '',
         email: '',
@@ -14,6 +20,18 @@ const Register = () => {
     });
 
     const { name, email, password, password2 } = formData;
+
+    useEffect(() => {
+        if (isError) {
+            toast.error(message)
+        }
+
+        if (isSuccess || user) {
+            navigate('/')
+        }
+
+        dispatch(reset());
+    }, [user, isError, isSuccess, message, navigate, dispatch])
 
 
     const onChange = (e) => {
@@ -26,6 +44,22 @@ const Register = () => {
     const onSubmit = (e) => {
         e.preventDefault();
 
+        if (!name || !email || !password || !password2) {
+            toast.error("please include all the fields")
+        }
+
+        if (password && password2 && password !== password2) {
+            toast.error("passwords dont match")
+        }
+
+        if (name && email && password && password === password2) {
+            const userData = {
+                email,
+                name,
+                password
+            }
+            dispatch(registerUser(userData))
+        }
     }
 
     return (
