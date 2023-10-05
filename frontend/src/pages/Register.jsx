@@ -5,7 +5,7 @@ import { registerUser } from '../features/auth/authSlice';
 import { useNavigate } from 'react-router-dom'
 import { reset } from '../features/auth/authSlice'
 import { toast } from 'react-toastify'
-
+import Spinner from './../components/Spinner';
 
 const Register = () => {
     const dispatch = useDispatch();
@@ -57,6 +57,9 @@ const Register = () => {
         }
     }
 
+    if (isLoading) {
+        return <Spinner />
+    }
 
     return (
         <>
