@@ -4,7 +4,7 @@ const API_URL_goals = '/api/goals';
 const getGoals = async (token) => {
   const config = {
     headers: {
-      authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${token}`,
     },
   };
   const response = await axios.get(API_URL_goals, config);

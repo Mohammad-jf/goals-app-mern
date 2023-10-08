@@ -3,26 +3,28 @@ import goalsService from '../goals/goalsService';
 
 const initialState = {
   goals: [],
-  goal: null,
   isError: false,
   isSuccess: false,
   isLoading: false,
   message: '',
 };
 
-export const getGoals = createAsyncThunk('goals/getGoals', async (thunkAPI) => {
-  try {
-    const token = thunkAPI.getState().auth.user.token;
-    return await goalsService.getGoals(token);
-  } catch (err) {
-    const message =
-      (err.response && err.response.data && err.response.data.message) ||
-      err.message ||
-      err.toString();
+export const getGoals = createAsyncThunk(
+  'goals/getGoals',
+  async (_, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token;
+      return await goalsService.getGoals(token);
+    } catch (err) {
+      const message =
+        (err.response && err.response.data && err.response.data.message) ||
+        err.message ||
+        err.toString();
 
-    return thunkAPI.rejectWithValue(message);
+      return thunkAPI.rejectWithValue(message);
+    }
   }
-});
+);
 
 export const createGoal = createAsyncThunk(
   'goals/createGoal',
@@ -87,12 +89,26 @@ export const goalsSlice = createSlice({
       .addCase(createGoal.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.goal = action.payload;
+        state.goals.push(action.payload);
       })
       .addCase(createGoal.rejected, (state, action) => {
         state.isError = true;
+        state.isLoading = false;
         state.isSuccess = false;
-        state.goal = null;
+        state.message = action.payload;
+      })
+      .addCase(getGoals.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getGoals.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.goals = action.payload;
+      })
+      .addCase(getGoals.rejected, (state, action) => {
+        state.isError = true;
+        state.isSuccess = false;
+        state.isLoading = false;
         state.message = action.payload;
       });
   },
