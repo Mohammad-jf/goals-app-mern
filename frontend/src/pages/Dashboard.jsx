@@ -17,15 +17,17 @@ const Dashboard = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (isError) {
-      console.log(message)
-    }
     if (!user) {
       navigate('/login');
+    } else {
+      dispatch(getGoals());
+    }
+
+    if (isError) {
+      console.log(message);
     }
 
 
-    dispatch(getGoals());
     return () => {
       dispatch(reset());
     }
